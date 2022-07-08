@@ -22,7 +22,7 @@ app.use(bodyParser.json())
 
 // using the routes 
 
-// authe routes 
+// auth routes 
 app.use('/api',auth)
 // Models routes 
 app.use('/api/movie',movie)

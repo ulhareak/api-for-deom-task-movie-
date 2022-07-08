@@ -13,11 +13,6 @@ function get(req, res, next) {
 
 
 function post(req, res) {
-
-    // const { genre_id , title , direstor_id , duration , info } = req.body | null
-    // const title = req.body.title ? req.body.title : '';
-    // const genre_id = req.body.genre_id ? req.body.genre_id : null;
-
     const { genre_id, title, director_id, duration, info } = {
         genre_id: genre_id,
         title: title,

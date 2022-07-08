@@ -1,10 +1,6 @@
 
 
-
-
-
 const knex = require('../db/db')
-
 
 function get(req, res) {
  knex('people').select().then((movie) => {

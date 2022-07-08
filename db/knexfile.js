@@ -6,7 +6,7 @@
 
 const dotenv = require('dotenv')
 const envs = dotenv.config()
-console.log(envs);
+// console.log(envs);
 // console.log(typeof(process.env.DATABASE));
 module.exports = {
 
