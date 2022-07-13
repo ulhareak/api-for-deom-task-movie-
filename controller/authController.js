@@ -28,8 +28,8 @@ function login(request, response, next) {
                         return response.status(200).json({ token })
                      })
 
-                     console.log(user.last_name);
-                     console.log(user.id);
+                     // console.log(user.last_name);
+                     // console.log(user.id);
                      knex('user').update({
                         last_seen: knex.fn.now(),
                         // last_name: "salunke"
@@ -88,8 +88,6 @@ function update_password(req, res, next) {
                   })
             })
       })
-
-
 
 }
 

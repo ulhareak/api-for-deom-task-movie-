@@ -3,36 +3,67 @@
 const knex = require('../db/db')
 
 function get(req, res) {
- knex('people').select().then((movie) => {
-        return res.json(movie)
-    })
+    if (req.user.is_admin) {
+        knex('people').select().where({is_deleted : false }).then((people) => {
+            return res.json(people)
+        })
+    }
 }
 
 function post(req, res, next) {
-    const { fname, lname, gender, age } = req.body
+    const { name  } = req.body
 
-    if (!fname | !lname | !gender) {
-        return res.json({ success: false, msg: 'fname , lname and gender req....' })
+    if (!name ) {
+        return res.json({ success: false, msg: 'name req....' })
     }
     if (req.user.is_admin) {
-     knex('people').insert(
+        knex('people').insert(
             {
-                fname: fname,
-                lname: lname,
-                gender: gender,
-                age: age
+                name: name,
             }
         ).then(() => {
-         knex.select().from('people').then((people) => {
+            knex.select().from('people').then((people) => {
                 res.send(people.pop())
             })
         })
     }
 }
 
-const put = (req , res , next  )=>{
+const patch = (req, res, next) => {
+    const id = req.params.id
+    const name  = req.body.title
+    if( !name ){
+        return res.json({succsess : true , msg : "enter name"})
+    }
+    if (req.user.is_admin) {
+        knex('people').update(
+            {
+                name: name
+            }
+        ).where({id : id }).then((people ) => {
+            res.json(people)
+        })
+    }
+}
 
-}  
+function delete_rec( req , res , next ){
+    const id = req.params.id
 
+    if( !id ){
+        return res.json({succsess : true , msg : "give id "})
+    }
 
-module.exports = { get, post }
+    if (req.user.is_admin) {
+        knex('people').update(
+            {
+                is_deleted : true
+            }
+        ).where({id : id }).then((people ) => {
+            res.json(people)
+        })
+
+    }
+
+}
+
+module.exports = { get, post , patch , delete_rec }

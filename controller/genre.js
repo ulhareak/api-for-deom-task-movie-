@@ -6,9 +6,12 @@ const knex = require('../db/db')
 
 
 function get(req, res, next) {
-    knex('genre').select().then((genre) => {
-        return res.json(genre)
-    })
+
+    if (req.user.is_admin) {
+        knex('genre').select().where({is_deleted : false}).then((genre) => {
+            return res.json(genre)
+        })
+    }
 }
 
 
@@ -35,7 +38,46 @@ function post(req, res, next) {
 
 }
 
+function patch(req , res ,next ){
+    const id = req.params.id
+    const name  = req.body.title
 
-module.exports = { get, post }
+    if( !name ){
+        return res.json({succsess : true , msg : "enter name"})
+    }
+
+    if (req.user.is_admin) {
+        knex('genre').update(
+            {
+                name: name
+            }
+        ).where({id : id }).then((genre ) => {
+            res.json(genre)
+        })
+
+    }
+}
+
+function delete_rec(req , res ,next ){
+    const id = req.params.id
+
+    if( !id ){
+        return res.json({succsess : true , msg : "give id "})
+    }
+
+    if (req.user.is_admin) {
+        knex('genre').update(
+            {
+                is_deleted : true
+            }
+        ).where({id : id }).then((genre ) => {
+            res.json(genre)
+        })
+
+    }
+
+}
+
+module.exports = { get, post , patch , delete_rec}
 
 

@@ -6,7 +6,7 @@ exports.up = function(knex) {
 
     return knex.schema.createTable('people', (table)=>{
         table.increments('id').primary();
-        table.string('first_name' , 10).notNullable();
+        table.string('name' , 10).notNullable().unique();
         // table.string('lname' , 10 ).notNullable();
         // table.string('gender' , 5 ).notNullable();
         // table.integer('age')

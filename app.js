@@ -16,7 +16,9 @@ const user = require('./routes/user').router
 const movie = require('./routes/movie').router
 const genre = require('./routes/genre').router
 const auth = require('./routes/auth').router
+const middleware = require('./middleware/middleware')
 app.use(cors())
+
 app.use(bodyParser.json())
 // app.use('/' ,router)
 
@@ -26,9 +28,9 @@ app.use(bodyParser.json())
 app.use('/api',auth)
 // Models routes 
 app.use('/api/movie',movie)
-app.use('/api/people',people)
+app.use('/api/people', middleware.verify,people)
 app.use('/api/user',user)
-app.use('/api/genre',genre)
+app.use('/api/genre',middleware.verify,genre)
 
 app.listen(port , ()=>{
     console.log(`app is listening at http://localhost:${port}`);

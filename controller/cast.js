@@ -8,6 +8,8 @@ const knex = require('../db/db')
 
 
 function get( req  , res , next ){
+
+    
  knex('cast').select().then((cast)=>{
         return res.json(cast)
     })
